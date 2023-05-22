@@ -1,0 +1,62 @@
+from news.models import *
+
+1) Создать двух пользователей
+user1 = User.objects.create_user('User1Ivan')
+user2 = User.objects.create_user('User2Kate')
+
+2) Создать два объекта модели Author, связанные с пользователями
+author1 = Autor.objects.create(user = user1) 
+author2 = Autor.objects.create(user = user2)
+
+3) Добавить 4 категории в модель Category
+category1 = Category.objects.create(name='IT')
+category2 = Category.objects.create(name='Cars')
+category3 = Category.objects.create(name='Economy') 
+category4 = Category.objects.create(name='Sport')
+
+4) Добавить 2 статьи и 1 новость
+arcticle1 = Post.objects.create(autor=author1, post_type='AR', title='Заголовок_статьи_1', text='Текст_статьи_1') 
+arcticle2 = Post.objects.create(autor=author2, post_type='AR', title='Заголовок_статьи_2', text='Текст_статьи_2')
+news1 = Post.objects.create(autor=author2, post_type='NW', title='Заголовок_новости_1', text='Текст_новости_1')
+
+5) Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий)
+arcticle1.category.add(category1) 
+arcticle1.category.add(category3) 
+arcticle2.category.add(category2)
+arcticle2.category.add(category4)
+news1.category.add(category1)
+news1.category.add(category2)
+
+6) Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий)
+comment1 = Comment.objects.create(post=arcticle1, user=user1, text='Текст_комментария_статьи_1') 
+comment2 = Comment.objects.create(post=arcticle2, user=user2, text='Текст_комментария_статьи_2') 
+comment3 = Comment.objects.create(post=arcticle1, user=user1, text='Текст_комментария_статьи_3') 
+comment4 = Comment.objects.create(post=news1, user=user2, text='Текст_комментария_новости_1')
+
+7) Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов
+comment1.like() 
+comment2.like() 
+comment3.like() 
+comment4.like()  
+comment3.like() 
+comment1.like() 
+comment2.like() 
+comment1.like() 
+comment1.dislike() 
+comment4.dislike() 
+comment3.dislike()
+comment3.dislike() 
+comment1.dislike() 
+arcticle1.like() 
+arcticle1.like() 
+arcticle1.like() 
+arcticle1.like() 
+arcticle1.like() 
+arcticle1.dislike()
+arcticle2.like() 
+arcticle2.like() 
+arcticle2.like()
+news1.like()
+news1.dislike()
+
+8) Обновить рейтинги пользователей
