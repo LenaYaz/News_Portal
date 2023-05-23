@@ -8,12 +8,11 @@ class Autor(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     def update_rating(self):
-        posts_rating = self.post_set.aggregate(result=Sum('rating')).get('result')
-        comments_rating = self.user.comment_set.aggregate(result=Sum('rating')).get('result')
-        comment_post = Post.objects.filter(author=self).values('rating')
-        a = 0
-        for i in range(len(comment_post)): a = a + comment_post[i]['rating']
-        self.rating = 3 * posts_rating + comments_rating + a
+        posts_rating = Post.objects.filter(autor=self).aggregate(result=Sum('rating')).get('result')
+        comments_rating = Comment.objects.filter(user=self.user).aggregate(result=Sum('rating')).get('result')
+        comment_post = Comment.objects.filter(post__autor__user=self.user).aggregate(result=Sum('rating')).get('result')
+
+        self.rating = 3 * posts_rating + comments_rating + comment_post
         self.save()
 
 
