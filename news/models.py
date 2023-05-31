@@ -20,6 +20,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
 
+
 class Post(models.Model):
     news = 'NW'
     arcticle = 'AR'
@@ -49,6 +50,9 @@ class Post(models.Model):
 
     def preview(self, length=124):
         return f"{self.text[:length]}..." if len(self.text) > length else self.text
+
+    def __str__(self):
+        return self.title.title()
 
 
 class PostCategory(models.Model):
