@@ -9,6 +9,9 @@ from .forms import PostForm
 from .models import Post
 from .filters import PostFilter
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
 
 class PostList(ListView):
     model = Post
@@ -55,7 +58,7 @@ def create_post(request):
 
 
 #изменение поста
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -66,3 +69,7 @@ class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = ''
