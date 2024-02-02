@@ -2,14 +2,14 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 
 from .forms import PostForm
 from .models import Post
 from .filters import PostFilter
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 
 
@@ -58,7 +58,10 @@ def create_post(request):
 
 
 #изменение поста
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = (
+        'news.post_create'
+    )
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -73,3 +76,8 @@ class PostDelete(DeleteView):
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'welcome.html'
+
+
+class MyView(PermissionRequiredMixin, View):
+    permission_required = ('<app>.<action>_<model>',
+                           '<app>.<action>_<model>')
