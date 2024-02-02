@@ -72,4 +72,4 @@ class PostDelete(DeleteView):
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
-    template_name = ''
+    template_name = 'welcome.html'
