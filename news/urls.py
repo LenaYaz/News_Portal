@@ -1,5 +1,6 @@
+
 from django.urls import path
-from .views import PostList, PostDetail, create_post, PostUpdate, PostDelete
+from .views import PostList, PostDetail, create_post, PostUpdate, PostDelete, CategoryListView, subscribe
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import upgrade_me
 
@@ -12,5 +13,8 @@ urlpatterns = [
     path('<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('upgrade/', upgrade_me, name='upgrade')
+    path('upgrade/', upgrade_me, name='upgrade'),
+    path('categories/<int:pk>', CategoryListView.as_view(), name='category_list'),
+    path('categories/<int:pk>/subscribe', subscribe, name='subscribe'),
+
 ]
